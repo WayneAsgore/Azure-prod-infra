@@ -31,6 +31,8 @@ source = "./modules/networking/subnet"
   subnet_name = var.subnet_name
   subnet_ap = var.subnet_ap
   virtual_network_name = var.vnet_name
+
+  depends_on = [module.vnet]
 }
 
 resource "azurerm_linux_virtual_machine" "linux_vm" {
