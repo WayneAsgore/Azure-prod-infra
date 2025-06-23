@@ -1,0 +1,36 @@
+name: Azure-pipeline
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    azure-deployment:
+        runs-on: ubuntu-latest
+        environment: Azure-IaC
+        defaults:
+            run:
+                working-directory: ./
+
+        steps:
+           - name: Syntax validation
+             uses: actions/checkout@v4
+
+           - name: Terraform validation
+             uses: hashicorp/setup-terraform@v3
+             with:
+                terraform_version: 4.33.0
+            
+           - name: Init
+             uses: terraform init
+             
+           - name: Validation
+             uses: terraform validate
+
+           - name: Planning
+             uses: terraform plan
+
+           - name: Applying
+             uses: terraform apply -auto-approve tfplan
+
