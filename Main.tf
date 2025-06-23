@@ -24,7 +24,6 @@ source = "./modules/networking/vnet"
   address_space = var.address_space
 }
 
-
 module "subnet" {
 source = "./modules/networking/subnet"
   rg_name = var.rg_name
