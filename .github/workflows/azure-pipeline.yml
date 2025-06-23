@@ -6,9 +6,11 @@ on:
             - main
 
 jobs:
-    call-azure-pipeline-workflow:
-      uses: ./.github/workflows/Azure-pipeline.yml
-    azure-deployment:
+  call-azure-pipeline-workflow:
+    uses: ./.github/workflows/azure-pipeline.yml
+
+  azure-deployment:
+        needs: call-azure-pipeline-workflow
         runs-on: ubuntu-latest
         environment: Azure-IaC
         defaults:
@@ -22,17 +24,17 @@ jobs:
            - name: Terraform validation
              uses: hashicorp/setup-terraform@v3
              with:
-               terraform_version: 4.33.0
+               terraform_version: 1.6.0
             
            - name: Init
-             uses: terraform init
+             run: terraform init
              
            - name: Validation
-             uses: terraform validate
+             run: terraform validate
 
            - name: Planning
-             uses: terraform plan
+             run: terraform plan
 
            - name: Applying
-             uses: terraform apply -auto-approve tfplan
+             run: terraform apply -auto-approve tfplan
 
