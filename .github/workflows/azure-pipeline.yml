@@ -7,7 +7,7 @@ on:
 
 jobs:
     call-azure-pipeline-workflow:
-      uses: ./.github/workflows/azure-pipeline.yml
+      uses: ./.github/workflows/Azure-pipeline.yml
     azure-deployment:
         runs-on: ubuntu-latest
         environment: Azure-IaC
