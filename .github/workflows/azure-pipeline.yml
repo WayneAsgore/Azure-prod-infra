@@ -11,7 +11,7 @@ jobs:
         environment: Azure-IaC
         defaults:
             run:
-                working-directory: ./
+               working-directory: ./
 
         steps:
            - name: Syntax validation
@@ -20,7 +20,7 @@ jobs:
            - name: Terraform validation
              uses: hashicorp/setup-terraform@v3
              with:
-                terraform_version: 4.33.0
+               terraform_version: 4.33.0
             
            - name: Init
              uses: terraform init
