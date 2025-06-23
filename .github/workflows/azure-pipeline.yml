@@ -4,13 +4,11 @@ on:
     push:
         branches:
             - main
+    
 
 jobs:
-  call-azure-pipeline-workflow:
-    uses: ./.github/workflows/azure-pipeline.yml
-
+  
   azure-deployment:
-        needs: call-azure-pipeline-workflow
         runs-on: ubuntu-latest
         environment: Azure-IaC
         defaults:
