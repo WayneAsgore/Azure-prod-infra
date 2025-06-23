@@ -30,9 +30,6 @@ jobs:
            - name: Validation
              run: terraform validate
 
-           - name: Planning
-             run: terraform plan
-
            - name: Applying
              run: terraform apply -auto-approve tfplan
 
