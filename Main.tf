@@ -18,6 +18,9 @@ provider "azurerm" {
 
 module "vnet" {
 source = "./modules/networking/vnet"
+providers = {
+  azurerm = azurerm
+}
   vnet_name = var.vnet_name
   location = var.location
   rg_name = var.rg_name
