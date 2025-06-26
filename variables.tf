@@ -104,11 +104,3 @@ variable "nsg_map" {
   }))
   }))
 }
-
-#rg state
-variable state_rg {}
-
-#backend variables
-variable storage_account_name {}
-variable container_name {}
-variable key {}

@@ -32,7 +32,7 @@ jobs:
 
            - name: Init
              run: terraform init
-             
+
            - name: Validation
              run: terraform validate
 

@@ -189,9 +189,9 @@ resource "azurerm_network_interface_security_group_association" "worker-nsg-asso
 
 terraform {
   backend "azurerm" {
-    resource_group_name = var.state_rg
-    storage_account_name = var.storage_account_name
-    container_name = var.container_name
-    key = var.key
+    resource_group_name = "State"
+    storage_account_name = "statesamike"
+    container_name = "backend"
+    key = "prod.terraform.tfstate"
   }
 }
