@@ -19,6 +19,7 @@ provider "azurerm" {
   tenant_id       = var.tenant_id
 }
 
+
 module "vnet" {
 source = "./modules/networking/vnet"
   vnet_name = var.vnet_name
