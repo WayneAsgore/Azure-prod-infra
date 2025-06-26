@@ -186,3 +186,12 @@ resource "azurerm_network_interface_security_group_association" "worker-nsg-asso
   network_interface_id = azurerm_network_interface.worker-nic[each.key].id
   network_security_group_id = azurerm_network_security_group.worker-nsg[each.key].id
 }
+
+terraform {
+  backend "azurerm" {
+    resource_group_name = var.state_rg
+    storage_account_name = var.storage_account_name
+    container_name = var.container_name
+    key = var.key
+  }
+}
