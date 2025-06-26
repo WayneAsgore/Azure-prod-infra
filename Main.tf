@@ -13,11 +13,10 @@ provider "azurerm" {
       delete_os_disk_on_deletion = true
     }
   }
-  use_cli = false
-  subscription_id = var.subscription_id
-  client_id       = var.client_id
-  client_secret   = var.client_secret
-  tenant_id       = var.tenant_id
+  subscription_id = "06b189df-5788-49e9-a904-9bd0182fab09"
+  client_id       = "d102b8e7-521a-4126-ab29-3b7d47b7ea99"
+  client_secret   = "dFa8Q~XGLaZhZtUBIC66wZPVGsuzRw2z2NI6uats"
+  tenant_id       = "e139cc7c-443e-4de3-9ba9-cb126b6e1f06"
 }
 
 module "vnet" {
