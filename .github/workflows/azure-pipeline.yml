@@ -33,6 +33,9 @@ jobs:
            - name: Init
              run: terraform init
 
+           - name: Login 
+             uses: az login
+
            - name: Validation
              run: terraform validate
 
