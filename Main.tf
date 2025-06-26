@@ -13,6 +13,7 @@ provider "azurerm" {
       delete_os_disk_on_deletion = true
     }
   }
+  use_cli = false
   subscription_id = var.subscription_id
   client_id       = var.client_id
   client_secret   = var.client_secret
