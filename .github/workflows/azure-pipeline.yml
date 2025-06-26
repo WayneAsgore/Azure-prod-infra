@@ -28,9 +28,6 @@ jobs:
            - name: Init
              run: terraform init
 
-           - name: Azure login
-             uses: azure/login@v2
-
            - name: Validation
              run: terraform validate
 
