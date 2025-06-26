@@ -33,6 +33,15 @@ jobs:
               ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
               ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
+
+
+           - name: Create tfvars from GitHub secrets
+             run: |
+              echo "client_id = \"$ARM_CLIENT_ID\"" > terraform.tfvars
+              echo "client_secret = \"$ARM_CLIENT_SECRET\"" >> terraform.tfvars
+              echo "subscription_id = \"$ARM_SUBSCRIPTION_ID\"" >> terraform.tfvars
+              echo "tenant_id = \"$ARM_TENANT_ID\"" >> terraform.tfvars   
+
               
            - name: Init
              run: terraform init
