@@ -3,7 +3,7 @@ name: Azure-pipeline
 on:
     push:
         branches:
-            - main
+            - none 
     
 
 jobs:
