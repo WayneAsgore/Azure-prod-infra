@@ -8,15 +8,12 @@ terraform {
 }
 
 provider "azurerm" {
+  subscription_id = var.subscription_id
   features {
     virtual_machine {
       delete_os_disk_on_deletion = true
     }
   }
-  subscription_id = var.subscription_id
-  client_id       = var.client_id
-  client_secret   = var.client_secret
-  tenant_id       = var.tenant_id
 }
 
 
@@ -192,10 +189,7 @@ resource "azurerm_network_interface_security_group_association" "worker-nsg-asso
 }
 
 terraform {
-  backend "azurerm" {
-    resource_group_name = "State"
-    storage_account_name = "statesamike"
-    container_name = "backend"
-    key = "prod.terraform.tfstate"
+  backend "local" {
+    path = "C:/Users/EliteBook_user/Documents/Azure-prod-infra"
   }
 }
