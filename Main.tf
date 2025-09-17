@@ -187,3 +187,86 @@ resource "azurerm_network_interface_security_group_association" "worker-nsg-asso
   network_interface_id = azurerm_network_interface.worker-nic[each.key].id
   network_security_group_id = azurerm_network_security_group.worker-nsg[each.key].id
 }
+
+resource "azurerm_public_ip" "ip_public_lb" {
+  name                = "lb-public-ip"
+  location            = "westeurope"
+  resource_group_name = "Project"  
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
+
+resource "azurerm_lb" "lb" {
+  name = "load-balancer"
+  location = "westeurope"
+  resource_group_name = "Project"
+  sku = "Standard"
+  
+
+  frontend_ip_configuration {
+    name = "lb-public-address"
+    public_ip_address_id = azurerm_public_ip.ip_public_lb.id
+  }  
+}
+
+resource "azurerm_lb_backend_address_pool" "lb_address_pool" {
+
+  name = "backend-pool"
+  loadbalancer_id = azurerm_lb.lb.id
+}
+
+resource "azurerm_lb_probe" "lb_probe" {
+  loadbalancer_id = azurerm_lb.lb.id
+  name            = "test-probe"
+  port            = 80
+  number_of_probes = 3
+  interval_in_seconds = 5
+}
+
+resource "azurerm_lb_rule" "http_rule" {
+  for_each                        = var.lb_rules_map
+
+  loadbalancer_id                = azurerm_lb.lb.id
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.lb_address_pool.id]
+  probe_id                       = azurerm_lb_probe.lb_probe.id
+
+  name                           = each.value.name
+  protocol                       = each.value.protocol
+  frontend_port                  = each.value.frontend_port
+  backend_port                   = each.value.backend_port
+  disable_outbound_snat          = true
+  frontend_ip_configuration_name = each.value.frontend_ip_configuration_name
+}
+
+
+resource "azurerm_network_interface_backend_address_pool_association" "nic-assoc" {
+  for_each = var.linux_worker_vm_map
+
+  network_interface_id    = azurerm_network_interface.worker-nic[each.key].id
+  ip_configuration_name   = "${each.value.name}-internal"
+  backend_address_pool_id = azurerm_lb_backend_address_pool.lb_address_pool.id
+}
+
+resource "azurerm_storage_account" "remote-storage" {
+  name = "backendstoragemike"
+  resource_group_name = "Project"
+  location = "westeurope"
+  account_tier = "Standard"
+  account_replication_type = "LRS"
+}
+
+resource "azurerm_storage_container" "backend_container" {
+  name = "tfstate"
+  container_access_type = "private"
+  storage_account_id = azurerm_storage_account.remote-storage.id
+}
+
+terraform {
+  backend "azurerm" {
+    resource_group_name = "Project"
+    storage_account_name = "backendstoragemike"
+    container_name = "tfstate"
+    key = "test/terraform.tfstate"
+    depends_on = "backend_container"
+  }
+}

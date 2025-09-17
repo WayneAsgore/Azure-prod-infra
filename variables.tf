@@ -104,3 +104,16 @@ variable "nsg_map" {
   }))
   }))
 }
+
+variable "lb_rules_map" {
+  type = map(object({
+  name                           = string
+  protocol                       = string
+  frontend_port                  = number
+  backend_port                   = number
+  frontend_ip_configuration_name = string
+  }))
+}
+
+
+
